@@ -25,9 +25,9 @@ public class App {
             }
 
             if (cmd.equals("uc7")) {
-                UseCase7.run(conn);
+                UseCase7.run(conn, scanner);
             } else if (cmd.equals("uc8")) {
-                UseCase8.run(conn);
+                UseCase8.run(conn, scanner);
             }
         }
 

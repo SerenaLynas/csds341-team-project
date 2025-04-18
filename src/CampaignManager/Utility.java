@@ -19,8 +19,7 @@ public class Utility {
         }
     }
 
-    public static int fetch_or_insert_person(Connection conn) throws SQLException {
-        var scanner = new Scanner(System.in);
+    public static int fetch_or_insert_person(Connection conn, Scanner scanner) throws SQLException {
         var fetch = conn
                 .prepareStatement("select person_id from person where first = ? and last = ? and dob = ?");
         var insert = conn.prepareCall("{call insert_person(?, ?, ?, ?, ?, ?, ?)}");
@@ -40,7 +39,6 @@ public class Utility {
         var fetch_result = fetch.executeQuery();
 
         while (fetch_result.next()) {
-            scanner.close();
             var person_id = fetch_result.getInt("person_id");
             System.out.println("found someone with person_id = " + person_id);
             return fetch_result.getInt("person_id");
@@ -57,8 +55,6 @@ public class Utility {
 
         System.out.println("district (empty for null):");
         var district = scanner.nextLine();
-
-        scanner.close();
 
         insert.setString(1, first);
         insert.setString(2, last);
