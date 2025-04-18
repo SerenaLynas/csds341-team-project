@@ -346,10 +346,10 @@ CREATE OR ALTER PROCEDURE insert_person
     @first VARCHAR(255),
     @last VARCHAR(255),
     @dob DATE,
-    @phone VARCHAR(255),
-    @email VARCHAR(255),
-    @address VARCHAR(255),
-    @district VARCHAR(255)
+    @phone VARCHAR(255) = NULL,
+    @email VARCHAR(255) = NULL,
+    @address VARCHAR(255) = NULL,
+    @district VARCHAR(255) = NULL
 AS
 BEGIN
     INSERT INTO person OUTPUT Inserted.person_id VALUES(@first, @last, @dob, @phone, @email, @address, @district);
@@ -443,6 +443,17 @@ CREATE OR ALTER PROCEDURE insert_person_issue
 AS
 BEGIN
     INSERT INTO person_issue OUTPUT Inserted.person_id, Inserted.issue_id VALUES (@person_id, @issue_id);
+END;
+GO
+
+GO
+CREATE OR ALTER PROCEDURE voted_in
+    @election_id INTEGER
+AS
+BEGIN
+    SELECT perosn.first, person.last, person.phone, person.email
+    FROM person INNER JOIN vote_cast ON person.person_id = vote_cast.person_id
+    WHERE vote_cast.election_id = @election_id
 END;
 GO
 

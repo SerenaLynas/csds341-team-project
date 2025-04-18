@@ -1,15 +1,17 @@
+package CampaignManager;
+
 import java.sql.DriverManager;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
         String connectionUrl = "jdbc:sqlserver://cxp-sql-03\\sjl132;"
-            + "database=university;"
-            + "user=dbuser;"
-            + "password=csds341143sdsc;"
-            + "encrypt=true;"
-            + "trustServerCertificate=true;"
-            + "loginTimeout=15;";
+                + "database=university;"
+                + "user=dbuser;"
+                + "password=csds341143sdsc;"
+                + "encrypt=true;"
+                + "trustServerCertificate=true;"
+                + "loginTimeout=15;";
 
         var conn = DriverManager.getConnection(connectionUrl);
         var scanner = new Scanner(System.in);
@@ -34,7 +36,7 @@ public class App {
         callable.setString(2, dept_name);
         callable.setInt(3, tot_cred);
         callable.execute();
-        
+
         var ret = callable.getResultSet();
         while (ret.next()) {
             System.out.println("returned ID: " + ret.getInt("ID"));
