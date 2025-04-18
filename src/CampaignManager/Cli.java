@@ -29,33 +29,35 @@ public class Cli {
     }
 
     public int choices(String question, String... choices) {
-        System.out.println(question);
-
         int i = 0;
         for (String choice: choices) {
             System.out.println("  " + choice + "(" + (1 + i++) + ")");
         }
 
         while (true) {
-            System.out.println("(enter an integer 1 to " + i + ")");
+            System.out.println(question + "(enter an integer 1 to " + i + ")");
             var ans = scanner.nextInt();
             if (0 < ans && ans < i) {
                 return ans;
+            } else {
+                System.out.println("Not in range.");
             }
         }
     }
 
     public int[] selectMultiple(String question, String... choices) {
-        System.out.println(question);
-
         int i = 0;
         for (String choice: choices) {
             System.out.println("  " + choice + "(" + (1 + i++) + ")");
         }
 
         while (true) {
-            System.out.println("(enter a list of integers 1 to " + i + ", e.g. 1,3,4)");
-            var ans = scanner.nextLine();
+            System.out.println(question + " (enter a list of integers 1 to " + i + ", e.g. 1,3,4 or \"none\" for none)");
+            var ans = scanner.nextLine().trim();
+            if (ans.equals("none")) {
+                return new int[] {};
+            }
+
             var arr = Arrays.stream(ans.split(",")).mapToInt(s -> Integer.parseInt(s)).toArray();
             if (Arrays.stream(arr).allMatch(k -> 0 < k && k < choices.length)) {
                 return arr;

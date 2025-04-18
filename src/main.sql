@@ -160,15 +160,15 @@ INSERT INTO campaign (candidate_id, manager_id, election_id, funds) VALUES
 INSERT INTO event (campaign_id, max_capacity, name, description, time_start, time_end, type)
 VALUES 
 (1, 300, 'Northwood Kickoff', 'Kickoff rally in Northwood', '2026-04-25 00:00:00', '2026-04-25 01:00:00', 'rally'),
-(2, 500, 'Eastfield Open Mic', 'Open mic with candidate', '2026-04-26 00:00:00', '2026-04-26 01:00:00', 'town hall'),
+(2, 500, 'Euclid Open Mic', 'Open mic with candidate', '2026-04-26 00:00:00', '2026-04-26 01:00:00', 'town hall'),
 (3, 750, 'Door knocking', 'Door knocking', '2026-04-27 00:00:00', '2026-04-27 01:00:00', 'gotv'),
-(4, 200, 'Southend Strategy Night', 'Meet & greet with campaign team', '2026-04-28 00:00:00', '2026-04-28 01:00:00', 'other'),
+(4, 200, 'Cleveland Strategy Night', 'Meet & greet with campaign team', '2026-04-28 00:00:00', '2026-04-28 01:00:00', 'other'),
 (5, 600, 'Phone bank', 'Volunteers call voters', '2026-04-29 00:00:00', '2026-04-29 01:00:00', 'phone bank'),
-(1, 300, 'Healthcare Town Hall', 'Focused on healthcare reform', '2026-04-30 00:00:00', '2026-04-30 01:00:00', 'town hall'),
-(2, 500, 'Education Reform Rally', 'Speech on education system', '2026-05-01 00:00:00', '2026-05-01 01:00:00', 'rally'),
+(1, 300, 'University Hospitals Town Hall', 'Focused on healthcare reform', '2026-04-30 00:00:00', '2026-04-30 01:00:00', 'town hall'),
+(2, 500, 'CWRU Education Reform Rally', 'Speech on education system', '2026-05-01 00:00:00', '2026-05-01 01:00:00', 'rally'),
 (3, 750, 'Door knocking', 'Door knocking', '2026-05-02 00:00:00', '2026-05-02 01:00:00', 'gotv'),
 (4, 200, 'Community Q&A', 'Answering local questions', '2026-05-03 00:00:00', '2026-05-03 01:00:00', 'town hall'),
-(5, 600, 'Phone Banking Finale', 'Final call push before election', '2026-05-04 00:00:00', '2026-05-04 01:00:00', 'phone bank');
+(5, 600, 'Phone Bank', 'Final call push before election', '2026-05-04 00:00:00', '2026-05-04 01:00:00', 'phone bank');
 
 INSERT INTO donation (person_id, campaign_id, amount) VALUES
 (11, 1, 25000),
@@ -271,7 +271,7 @@ AS BEGIN
 
 	SELECT @district = district FROM person WHERE person_id = @voter_id;
 
-	SELECT first, last, district, election.election_id, date as election_date, campaign_id FROM campaign
+	SELECT person_id, first, last, district, election.election_id, date as election_date, campaign_id FROM campaign
 	INNER JOIN person ON campaign.candidate_id = person_id
 	INNER JOIN election ON campaign.election_id = election.election_id
 	WHERE district = @district AND person_id != @voter_id
@@ -314,7 +314,7 @@ GO
 -- TODO: Why is venue_id null?
 
 GO
-CREATE OR ALTER PROCEDURE register_event
+CREATE OR ALTER PROCEDURE register_for_event
 	@event_id AS INTEGER,
 	@person_id AS INTEGER,
 	@utm AS VARCHAR(255)
