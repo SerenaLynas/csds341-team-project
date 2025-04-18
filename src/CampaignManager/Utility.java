@@ -6,6 +6,26 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Utility {
+    public static int login(Connection conn, Cli cli) throws Exception {
+        var voter_id = cli.askInt("What is your user ID?");
+        var call = conn.prepareCall("{call get_person(?)}");
+        call.setInt(1, voter_id);
+        var result = call.executeQuery();
+
+        if (!result.next()) {
+            throw new Exception("Person with id " + voter_id + " does not exist.");
+        }
+
+        System.out.println(
+            "You are logged in as "
+            + result.getString("first") + " "
+            + result.getString("last") + " residing in "
+            + result.getString("district")
+        );
+
+        return voter_id;
+    }
+
     public static void display_issues(Connection conn) throws SQLException {
         var stmt = conn.prepareStatement("select * from issue");
         var result = stmt.executeQuery();
