@@ -170,7 +170,7 @@ public class Utility {
     }
 
     public static void display_donations(Connection conn) throws SQLException {
-        var stmt = conn.prepareStatement("select * from donations");
+        var stmt = conn.prepareStatement("select * from donation");
         var result = stmt.executeQuery();
 
         while (result.next()) {
