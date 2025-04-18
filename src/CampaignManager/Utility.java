@@ -241,7 +241,8 @@ public class Utility {
         insert.setInt(2, campaign_id);
         insert.setInt(3, donation_amount);
 
-        var result = insert.executeQuery();
+        insert.executeUpdate();
+        var result = insert.getGeneratedKeys();
         result.next();
 
         var donation_id = result.getInt("donation_id");

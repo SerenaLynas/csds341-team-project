@@ -549,7 +549,7 @@ CREATE OR ALTER PROCEDURE insert_donation
     @amount BIGINT
 AS
 BEGIN
-    INSERT INTO donation OUTPUT Inserted.donation_id VALUES (@person_id, @campaign_id, @amount);
+    INSERT INTO donation VALUES (@person_id, @campaign_id, @amount);
 END;
 GO
 
