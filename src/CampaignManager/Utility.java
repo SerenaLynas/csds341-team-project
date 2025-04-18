@@ -6,16 +6,13 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Utility {
-    public static void display_issues(Connection conn) {
-        try (var stmt = conn.prepareStatement("select * from issues")) {
-            var result = stmt.executeQuery();
-            while (result.next()) {
-                int id = result.getInt("issue_id");
-                String desc = result.getString("description");
-                System.out.println("issue_id: " + id + ", description: " + desc);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public static void display_issues(Connection conn) throws SQLException {
+        var stmt = conn.prepareStatement("select * from issue");
+        var result = stmt.executeQuery();
+        while (result.next()) {
+            int id = result.getInt("issue_id");
+            String desc = result.getString("description");
+            System.out.println("issue_id: " + id + ", description: " + desc);
         }
     }
 
