@@ -42,7 +42,7 @@ CREATE TABLE campaign (
     candidate_id INTEGER NOT NULL,
     manager_id INTEGER NOT NULL,
     election_id INTEGER NOT NULL,
-    funds BIGINT DEFAULT 0,
+    funds NUMERIC DEFAULT 0,
     FOREIGN KEY (candidate_id) REFERENCES person(person_id),
     FOREIGN KEY (manager_id) REFERENCES person(person_id),
     FOREIGN KEY (election_id) REFERENCES election(election_id)
@@ -68,7 +68,7 @@ CREATE TABLE donation (
     donation_id INTEGER IDENTITY PRIMARY KEY,
     person_id INTEGER NOT NULL,
     campaign_id INTEGER NOT NULL,
-    amount BIGINT NOT NULL,
+    amount NUMERIC NOT NULL,
     FOREIGN KEY (person_id) REFERENCES person(person_id),
     FOREIGN KEY (campaign_id) REFERENCES campaign(campaign_id)
 );
@@ -113,29 +113,29 @@ CREATE TABLE person_issue (
 );
 
 INSERT INTO person (first, last, dob, phone, email, address, district) VALUES
-('Alice', 'Johnson', '1985-04-12', '555-1234', 'alice.johnson@example.com', '123 Main St, Springfield', 'OH-99'),
-('Bob', 'Smith', '1978-11-23', '555-2345', 'bob.smith@example.com', '456 Elm St, Springfield', 'OH-57'),
-('Carol', 'White', '1990-01-08', '555-3456', 'carol.white@example.com', '789 Oak St, Springfield', 'OH-23'),
-('David', 'Brown', '1967-05-17', '555-4567', 'david.brown@example.com', '101 Maple Ave, Springfield', 'OH-65'),
-('Eve', 'Davis', '1983-03-04', '555-5678', 'eve.davis@example.com', '202 Birch Rd, Springfield', 'OH-57'),
-('Frank', 'Moore', '1992-09-22', '555-6789', 'frank.moore@example.com', '303 Cedar Blvd, Springfield', 'OH-99'),
-('Grace', 'Walker', '1975-07-15', '555-7890', 'grace.clark@example.com', '404 Pine Cir, Springfield', 'OH-65'),
-('Hank', 'Miller', '1980-02-28', '555-8901', 'hank.miller@example.com', '505 Cherry Ln, Springfield', 'OH-57'),
-('Ivy', 'Wilson', '1995-12-09', '555-9012', 'ivy.wilson@example.com', '606 Willow Dr, Springfield', 'OH-57'),
-('Jack', 'Taylor', '1988-06-30', '555-0123', 'jack.taylor@example.com', '707 Spruce Ct, Springfield', 'OH-99'),
-('Karen', 'Anderson', '1972-08-19', '555-1023', 'karen.anderson@example.com', '808 Hemlock Way, Springfield', 'OH-65'),
-('Leo', 'Thomas', '1965-10-05', '555-1123', 'leo.thomas@example.com', '909 Poplar St, Springfield', 'OH-65'),
-('Mia', 'Jackson', '1993-11-27', '555-1223', 'mia.jackson@example.com', '121 Ivy Rd, Springfield', 'OH-57'),
-('Nick', 'Harris', '1986-02-14', '555-1323', 'nick.harris@example.com', '131 Fir St, Springfield', 'OH-57'),
-('Olivia', 'Martin', '1979-04-07', '555-1423', 'olivia.martin@example.com', '141 Oakwood Ave, Springfield', 'OH-65'),
-('Paul', 'Lee', '1991-03-12', '555-1523', 'paul.lee@example.com', '151 Brookside Dr, Springfield', 'OH-57'),
-('Quinn', 'Walker', '1982-07-21', '555-1623', 'quinn.walker@example.com', '161 Valley Rd, Springfield', 'OH-99'),
-('Rachel', 'Hall', '1994-09-13', '555-1723', 'rachel.hall@example.com', '171 Hillside Blvd, Springfield', 'OH-57'),
-('Sam', 'Allen', '1977-01-29', '555-1823', 'sam.allen@example.com', '181 Canyon St, Springfield', 'OH-57'),
-('Tina', 'Young', '1989-12-25', '555-1923', 'tina.young@example.com', '191 Meadow Ln, Springfield', 'OH-57');
+('John', 'James', '1985-04-12', '555-1234', 'alice.johnson@example.com', '123 Euclid Ave, Cleveland', 'OH-99'),
+('Bob', 'Bobby', '1978-11-23', '555-2345', 'bob.smith@example.com', '456 Elm St, Cleveland', 'OH-57'),
+('Ann', 'Annie', '1990-01-08', '555-3456', 'carol.white@example.com', '789 Oak St, Cleveland', 'OH-23'),
+('David', 'Brown', '1967-05-17', '555-4567', 'david.brown@example.com', '101 Maple Ave, Cleveland', 'OH-65'),
+('Eve', 'Davis', '1983-03-04', '555-5678', 'eve.davis@example.com', '202 Birch Rd, Cleveland', 'OH-57'),
+('Frank', 'Moore', '1992-09-22', '555-6789', 'frank.moore@example.com', '303 Cedar Blvd, Cleveland', 'OH-99'),
+('Grace', 'Walker', '1975-07-15', '555-7890', 'grace.clark@example.com', '404 Pine Cir, Cleveland', 'OH-65'),
+('Hank', 'Miller', '1980-02-28', '555-8901', 'hank.miller@example.com', '505 Cherry Ln, Cleveland', 'OH-57'),
+('Ivy', 'Wilson', '1995-12-09', '555-9012', 'ivy.wilson@example.com', '606 Euclid Ave, Cleveland', 'OH-57'),
+('Jack', 'Taylor', '1988-06-30', '555-0123', 'jack.taylor@example.com', '707 Euclid Ave, Cleveland', 'OH-99'),
+('Karen', 'Anderson', '1972-08-19', '555-1023', 'karen.anderson@example.com', '808 Hemlock Way, Cleveland', 'OH-65'),
+('Leo', 'Thomas', '1965-10-05', '555-1123', 'leo.thomas@example.com', '909 Poplar St, Cleveland', 'OH-65'),
+('Mia', 'Jackson', '1993-11-27', '555-1223', 'mia.jackson@example.com', '121 Ivy Rd, Cleveland', 'OH-57'),
+('Nick', 'Harris', '1986-02-14', '555-1323', 'nick.harris@example.com', '131 Fir St, Cleveland', 'OH-57'),
+('Olivia', 'Martin', '1979-04-07', '555-1423', 'olivia.martin@example.com', '141 Oakwood Ave, Cleveland', 'OH-65'),
+('Paul', 'Lee', '1991-03-12', '555-1523', 'paul.lee@example.com', '151 Brookside Dr, Cleveland', 'OH-57'),
+('Quinn', 'Walker', '1982-07-21', '555-1623', 'quinn.walker@example.com', '161 Valley Rd, Cleveland', 'OH-99'),
+('Rachel', 'Hall', '1994-09-13', '555-1723', 'rachel.hall@example.com', '171 Hillside Blvd, Cleveland', 'OH-57'),
+('Sam', 'Allen', '1977-01-29', '555-1823', 'sam.allen@example.com', '181 Canyon St, Cleveland', 'OH-57'),
+('Tina', 'Young', '1989-12-25', '555-1923', 'tina.young@example.com', '191 Meadow Ln, Cleveland', 'OH-57');
 
 INSERT INTO venue (name, location, max_capacity) VALUES
-('Springfield Community Center', 'Northwood', 300),
+('Cleveland Community Center', 'Northwood', 300),
 ('Eastfield Town Hall', 'Eastfield', 500),
 ('Westhaven Civic Arena', 'Westhaven', 750),
 ('Southend Park Pavilion', 'Southend', 200),
@@ -171,26 +171,26 @@ VALUES
 (5, 600, 'Phone Banking Finale', 'Final call push before election', '2026-05-04 00:00:00', '2026-05-04 01:00:00', 'phone bank');
 
 INSERT INTO donation (person_id, campaign_id, amount) VALUES
-(11, 1, 250),
-(12, 2, 100),
-(13, 3, 300),
-(14, 4, 200),
-(15, 5, 500),
-(16, 6, 150),
-(17, 7, 400),
-(18, 8, 350),
-(19, 9, 220),
-(20, 10, 180),
-(11, 2, 100),
-(12, 3, 150),
-(13, 4, 250),
-(14, 5, 300),
-(15, 6, 175),
-(16, 7, 450),
-(17, 8, 125),
-(18, 9, 275),
-(19, 10, 190),
-(20, 1, 210);
+(11, 1, 25000),
+(12, 2, 10000),
+(13, 3, 30000),
+(14, 4, 20000),
+(15, 5, 50000),
+(16, 6, 15000),
+(17, 7, 40000),
+(18, 8, 35000),
+(19, 9, 22000),
+(20, 10, 18000),
+(11, 2, 10000),
+(12, 3, 15000),
+(13, 4, 25000),
+(14, 5, 30000),
+(15, 6, 17500),
+(16, 7, 45000),
+(17, 8, 12500),
+(18, 9, 27500),
+(19, 10, 19000),
+(20, 1, 21000);
 
 INSERT INTO issue (description) VALUES
 ('Healthcare'),
@@ -306,6 +306,106 @@ GO
 
 -- TODO: Why is venue_id null?
 
+GO
+CREATE OR ALTER PROCEDURE register_event
+	@event_id AS INTEGER,
+	@person_id AS INTEGER,
+	@utm AS VARCHAR(255)
+AS BEGIN
+	SET NOCOUNT ON;
+	SET IMPLICIT_TRANSACTIONS OFF;
+	BEGIN TRANSACTION;
+
+	DECLARE @attendees INTEGER, @capacity INTEGER;
+
+	SELECT @attendees = COUNT(*) FROM attend_event WHERE event_id = @event_id;
+	SELECT @capacity = max_capacity FROM event WHERE event_id = @event_id;
+
+	IF @attendees + 1 > @capacity
+		ROLLBACK TRANSACTION;
+	ELSE BEGIN
+		INSERT INTO attend_event(
+			event_id,
+			person_id,
+			register_utm,
+			register_timestamp
+		) VALUES (
+			@event_id,
+			@person_id,
+			@utm,
+			SYSUTCDATETIME()
+		);
+		COMMIT TRANSACTION;
+	END;
+END
+GO
+
+EXECUTE register_event
+	@event_id = 3,
+	@person_id = 1,
+	@utm = 'utm_source=cli';
+GO
+
+-- USE CASE (2)
+CREATE OR ALTER PROCEDURE find_candidates_by_issue
+	@issue_id AS INTEGER
+AS BEGIN
+	SELECT first, last, district, campaign_id, election.election_id, date as election_date
+	FROM person
+	INNER JOIN campaign ON campaign.candidate_id = person.person_id
+	INNER JOIN election ON election.election_id = campaign.election_id
+	INNER JOIN person_issue ON person_issue.person_id = person.person_id
+	INNER JOIN issue ON person_issue.issue_id = issue.issue_id
+	WHERE date > GETDATE()
+END;
+GO
+
+EXECUTE find_candidate_by_issue
+	@issue_id = 1;
+GO
+
+CREATE OR ALTER PROCEDURE make_donation
+    @person_id INTEGER,
+    @campaign_id INTEGER,
+    @amount BIGINT,
+	@statutory_limit BIGINT
+AS
+BEGIN
+	BEGIN TRANSACTION;
+	-- Do not allow donations to campaigns in the past.
+	DECLARE @date DATE, @election_id INTEGER;
+
+	SELECT @date = date, @election_id = campaign.election_id FROM election
+	INNER JOIN campaign ON campaign.election_id = election.election_id
+	WHERE campaign.campaign_id = @campaign_id;
+
+	IF @date IS NULL OR @date < GETDATE() BEGIN
+		ROLLBACK TRANSACTION;
+		THROW 51000, 'Cannot donate to an election in the past', 1;
+	END ELSE BEGIN
+		DECLARE @cycle_sum BIGINT;
+
+		SELECT @cycle_sum = SUM(amount) FROM donation
+		INNER JOIN campaign ON campaign.campaign_id = donation.campaign_id
+		WHERE person_id = @person_id AND election_id = @election_id;
+
+		IF @cycle_sum + @amount > @statutory_limit BEGIN
+			ROLLBACK TRANSACTION;
+			THROW 51001, 'Donation would exceed statutory limit', 2;
+		END ELSE BEGIN
+			INSERT INTO donation VALUES (@person_id, @campaign_id, @amount);
+			COMMIT TRANSACTION;
+		END
+	END
+END;
+GO
+
+EXECUTE make_donation
+	@person_id = 1,
+	@campaign_id = 1,
+	@amount = 10000,
+	@statutory_limit = 20000;
+GO
 
 -- (6)
 CREATE PROCEDURE find_new_candidates
