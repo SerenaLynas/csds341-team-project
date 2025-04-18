@@ -18,7 +18,7 @@ public class App {
 
         while (true) {
             System.out.println("enter ucN to select a specific use case, or q/Q to quit:");
-            String cmd = scanner.next();
+            String cmd = scanner.nextLine();
 
             if (cmd.toLowerCase().equals("q")) {
                 break;
