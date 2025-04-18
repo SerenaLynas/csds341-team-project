@@ -16,17 +16,10 @@ public class UseCase8 {
             cmd = scanner.nextLine();
         }
 
-        try {
-            conn.setAutoCommit(false);
-            if (cmd.equals("insert")) {
-                run_insert(conn, scanner);
-            } else {
-                run_find(conn, scanner);
-            }
-            conn.commit();
-        } catch (SQLException e) {
-            conn.rollback();
-            throw e;
+        if (cmd.equals("insert")) {
+            run_insert(conn, scanner);
+        } else {
+            run_find(conn, scanner);
         }
     }
 

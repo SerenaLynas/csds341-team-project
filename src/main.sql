@@ -42,7 +42,7 @@ CREATE TABLE campaign (
     candidate_id INTEGER NOT NULL,
     manager_id INTEGER NOT NULL,
     election_id INTEGER NOT NULL,
-    funds NUMERIC DEFAULT 0,
+    funds BIGINT DEFAULT 0,
     FOREIGN KEY (candidate_id) REFERENCES person(person_id),
     FOREIGN KEY (manager_id) REFERENCES person(person_id),
     FOREIGN KEY (election_id) REFERENCES election(election_id)
@@ -68,7 +68,7 @@ CREATE TABLE donation (
     donation_id INTEGER IDENTITY PRIMARY KEY,
     person_id INTEGER NOT NULL,
     campaign_id INTEGER NOT NULL,
-    amount NUMERIC NOT NULL,
+    amount BIGINT NOT NULL,
     FOREIGN KEY (person_id) REFERENCES person(person_id),
     FOREIGN KEY (campaign_id) REFERENCES campaign(campaign_id)
 );
