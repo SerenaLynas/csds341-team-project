@@ -16,30 +16,21 @@ public class App {
         var conn = DriverManager.getConnection(connectionUrl);
         var scanner = new Scanner(System.in);
 
-        String name;
-        String dept_name;
-        int tot_cred;
+        while (true) {
+            System.out.println("enter ucN to select a specific use case, or q/Q to quit:");
+            String cmd = scanner.next();
 
-        System.out.print("name: ");
-        name = scanner.nextLine();
+            if (cmd.toLowerCase().equals("q")) {
+                break;
+            }
 
-        System.out.print("dept_name: ");
-        dept_name = scanner.nextLine();
-
-        System.out.print("tot_cred: ");
-        tot_cred = scanner.nextInt();
+            if (cmd.equals("uc7")) {
+                UseCase7.run(conn);
+            } else if (cmd.equals("uc8")) {
+                UseCase8.run(conn);
+            }
+        }
 
         scanner.close();
-
-        var callable = conn.prepareCall("{call insertStudent2(?, ?, ?)}");
-        callable.setString(1, name);
-        callable.setString(2, dept_name);
-        callable.setInt(3, tot_cred);
-        callable.execute();
-
-        var ret = callable.getResultSet();
-        while (ret.next()) {
-            System.out.println("returned ID: " + ret.getInt("ID"));
-        }
     }
 }
