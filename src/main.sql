@@ -436,6 +436,27 @@ GO
 -- (8)
 
 GO
+CREATE OR ALTER PROCEDURE insert_campaign
+    @candidate_id INTEGER,
+    @manager_id INTEGER,
+    @election_id INTEGER
+AS
+BEGIN
+    INSERT INTO campaign OUTPUT Inserted.campaign_id VALUES (@candidate_id, @manager_id, @election_id, 0);
+END;
+GO
+
+GO
+CREATE OR ALTER PROCEDURE insert_election
+    @date DATE,
+    @registration_deadline DATE
+AS
+BEGIN
+    INSERT INTO election OUTPUT Inserted.election_id VALUES (@registration_deadline, @date);
+END;
+GO
+
+GO
 CREATE OR ALTER PROCEDURE find_people_for_issue
     @issue_id INTEGER
 AS
