@@ -257,6 +257,13 @@ INSERT INTO person_issue (person_id, issue_id) VALUES
 -- USE CASES
 -- (1)
 GO
+CREATE OR ALTER PROCEDURE get_person
+    @id AS INTEGER
+AS BEGIN
+    SELECT first, last, district FROM person WHERE person_id = @id;
+END;
+
+GO
 CREATE OR ALTER PROCEDURE find_local_candidates
 	@voter_id AS INTEGER
 AS BEGIN
