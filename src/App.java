@@ -3,13 +3,13 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String connectionUrl = "jdbc:sqlserver://cxp-sql-03\\tak112;"
-                + "database=university;"
-                + "user=sa;"
-                + "password=YVaTAtNDMgAEr3;"
-                + "encrypt=true;"
-                + "trustServerCertificate=true;"
-                + "loginTimeout=15;";
+        String connectionUrl = "jdbc:sqlserver://cxp-sql-03\\sjl132;"
+            + "database=university;"
+            + "user=dbuser;"
+            + "password=csds341143sdsc;"
+            + "encrypt=true;"
+            + "trustServerCertificate=true;"
+            + "loginTimeout=15;";
 
         var conn = DriverManager.getConnection(connectionUrl);
         var scanner = new Scanner(System.in);
