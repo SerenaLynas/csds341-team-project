@@ -106,7 +106,7 @@ public class Utility {
         }
 
         int election_id;
-        if (cmd.equals("y")) {
+        if (cmd.equals("n")) {
             election_id = fetch_or_insert_election(conn, scanner);
         } else {
             System.out.println("enter the election_id:");
