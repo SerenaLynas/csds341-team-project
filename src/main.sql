@@ -420,7 +420,7 @@ CREATE OR ALTER PROCEDURE find_people_for_issue
 AS
 BEGIN
     SELECT person.first, person.last, person.phone, person.email
-    FROM person INNER JOIN person_issue ON person.person_id = person_issue.issue_id
+    FROM person INNER JOIN person_issue ON person.person_id = person_issue.person_id
     WHERE person_issue.issue_id = @issue_id;
 END;
 GO
