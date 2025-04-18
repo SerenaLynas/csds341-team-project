@@ -67,7 +67,7 @@ public class UseCase7 {
         System.out.println("name,phone,email,total donations");
         while (result.next()) {
             System.out.println(result.getString("first") + " " + result.getString("last") +
-                    "," + result.getString("phone") + "," + result.getString("email")
+                    "," + result.getString("phone") + "," + result.getString("email") + "," +
                     + result.getInt("total_donations"));
         }
     }
