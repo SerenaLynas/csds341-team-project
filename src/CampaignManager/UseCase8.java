@@ -15,7 +15,7 @@ public class UseCase8 {
         while (!cmd.equals("insert") && !cmd.equals("select")) {
             System.out.println(
                     "enter `insert` to add a new person-issue tuple or `find` to identify people who care about an issue:");
-            cmd = scanner.next();
+            cmd = scanner.nextLine();
         }
 
         scanner.close();
@@ -48,7 +48,7 @@ public class UseCase8 {
         String cmd = "";
         while (!cmd.equals("y") && !cmd.equals("n")) {
             System.out.println("do you know the issue id you wish to find (y/n/Y/N)?");
-            cmd = scanner.next().toLowerCase();
+            cmd = scanner.nextLine().toLowerCase();
         }
 
         if (cmd.equals("n")) {
@@ -56,7 +56,7 @@ public class UseCase8 {
         }
 
         System.out.println("enter the issue id you are interested in (q to quit):");
-        var id_or_quit = scanner.next();
+        var id_or_quit = scanner.nextLine();
 
         if (id_or_quit.toLowerCase().equals("q")) {
             scanner.close();
@@ -70,7 +70,7 @@ public class UseCase8 {
             System.out.println("to find all people who are known to care about this issue, enter `people`.");
             System.out.println(
                     "to find all people who have voted in an election where this issue was at stake, enter `election`.");
-            where = scanner.next();
+            where = scanner.nextLine();
         }
         scanner.close();
 
