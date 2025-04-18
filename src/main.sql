@@ -21,7 +21,7 @@ CREATE TABLE person (
     phone VARCHAR(255),
     email VARCHAR(255),
     address VARCHAR(255),
-    district VARCHAR(255)
+    district VARCHAR(5)
 );
 
 CREATE TABLE venue (
@@ -68,7 +68,7 @@ CREATE TABLE donation (
     donation_id INTEGER IDENTITY PRIMARY KEY,
     person_id INTEGER NOT NULL,
     campaign_id INTEGER NOT NULL,
-    amount BIGINT NOT NULL,
+    amount NUMERIC NOT NULL,
     FOREIGN KEY (person_id) REFERENCES person(person_id),
     FOREIGN KEY (campaign_id) REFERENCES campaign(campaign_id)
 );
@@ -113,26 +113,26 @@ CREATE TABLE person_issue (
 );
 
 INSERT INTO person (first, last, dob, phone, email, address, district) VALUES
-('Alice', 'Johnson', '1985-04-12', '555-1234', 'alice.johnson@example.com', '123 Main St, Springfield', 'Northwood'),
-('Bob', 'Smith', '1978-11-23', '555-2345', 'bob.smith@example.com', '456 Elm St, Springfield', 'Eastfield'),
-('Carol', 'White', '1990-01-08', '555-3456', 'carol.white@example.com', '789 Oak St, Springfield', 'Westhaven'),
-('David', 'Brown', '1967-05-17', '555-4567', 'david.brown@example.com', '101 Maple Ave, Springfield', 'Northwood'),
-('Eve', 'Davis', '1983-03-04', '555-5678', 'eve.davis@example.com', '202 Birch Rd, Springfield', 'Southend'),
-('Frank', 'Moore', '1992-09-22', '555-6789', 'frank.moore@example.com', '303 Cedar Blvd, Springfield', 'Northwood'),
-('Grace', 'Walker', '1975-07-15', '555-7890', 'grace.clark@example.com', '404 Pine Cir, Springfield', 'Westhaven'),
-('Hank', 'Miller', '1980-02-28', '555-8901', 'hank.miller@example.com', '505 Cherry Ln, Springfield', 'Eastfield'),
-('Ivy', 'Wilson', '1995-12-09', '555-9012', 'ivy.wilson@example.com', '606 Willow Dr, Springfield', 'Southend'),
-('Jack', 'Taylor', '1988-06-30', '555-0123', 'jack.taylor@example.com', '707 Spruce Ct, Springfield', 'Northwood'),
-('Karen', 'Anderson', '1972-08-19', '555-1023', 'karen.anderson@example.com', '808 Hemlock Way, Springfield', 'Eastfield'),
-('Leo', 'Thomas', '1965-10-05', '555-1123', 'leo.thomas@example.com', '909 Poplar St, Springfield', 'Westhaven'),
-('Mia', 'Jackson', '1993-11-27', '555-1223', 'mia.jackson@example.com', '121 Ivy Rd, Springfield', 'Southend'),
-('Nick', 'Harris', '1986-02-14', '555-1323', 'nick.harris@example.com', '131 Fir St, Springfield', 'Eastfield'),
-('Olivia', 'Martin', '1979-04-07', '555-1423', 'olivia.martin@example.com', '141 Oakwood Ave, Springfield', 'Westhaven'),
-('Paul', 'Lee', '1991-03-12', '555-1523', 'paul.lee@example.com', '151 Brookside Dr, Springfield', 'Southend'),
-('Quinn', 'Walker', '1982-07-21', '555-1623', 'quinn.walker@example.com', '161 Valley Rd, Springfield', 'Northwood'),
-('Rachel', 'Hall', '1994-09-13', '555-1723', 'rachel.hall@example.com', '171 Hillside Blvd, Springfield', 'Eastfield'),
-('Sam', 'Allen', '1977-01-29', '555-1823', 'sam.allen@example.com', '181 Canyon St, Springfield', 'Westhaven'),
-('Tina', 'Young', '1989-12-25', '555-1923', 'tina.young@example.com', '191 Meadow Ln, Springfield', 'Southend');
+('Alice', 'Johnson', '1985-04-12', '555-1234', 'alice.johnson@example.com', '123 Main St, Springfield', 'OH-99'),
+('Bob', 'Smith', '1978-11-23', '555-2345', 'bob.smith@example.com', '456 Elm St, Springfield', 'OH-57'),
+('Carol', 'White', '1990-01-08', '555-3456', 'carol.white@example.com', '789 Oak St, Springfield', 'OH-23'),
+('David', 'Brown', '1967-05-17', '555-4567', 'david.brown@example.com', '101 Maple Ave, Springfield', 'OH-65'),
+('Eve', 'Davis', '1983-03-04', '555-5678', 'eve.davis@example.com', '202 Birch Rd, Springfield', 'OH-57'),
+('Frank', 'Moore', '1992-09-22', '555-6789', 'frank.moore@example.com', '303 Cedar Blvd, Springfield', 'OH-99'),
+('Grace', 'Walker', '1975-07-15', '555-7890', 'grace.clark@example.com', '404 Pine Cir, Springfield', 'OH-65'),
+('Hank', 'Miller', '1980-02-28', '555-8901', 'hank.miller@example.com', '505 Cherry Ln, Springfield', 'OH-57'),
+('Ivy', 'Wilson', '1995-12-09', '555-9012', 'ivy.wilson@example.com', '606 Willow Dr, Springfield', 'OH-57'),
+('Jack', 'Taylor', '1988-06-30', '555-0123', 'jack.taylor@example.com', '707 Spruce Ct, Springfield', 'OH-99'),
+('Karen', 'Anderson', '1972-08-19', '555-1023', 'karen.anderson@example.com', '808 Hemlock Way, Springfield', 'OH-65'),
+('Leo', 'Thomas', '1965-10-05', '555-1123', 'leo.thomas@example.com', '909 Poplar St, Springfield', 'OH-65'),
+('Mia', 'Jackson', '1993-11-27', '555-1223', 'mia.jackson@example.com', '121 Ivy Rd, Springfield', 'OH-57'),
+('Nick', 'Harris', '1986-02-14', '555-1323', 'nick.harris@example.com', '131 Fir St, Springfield', 'OH-57'),
+('Olivia', 'Martin', '1979-04-07', '555-1423', 'olivia.martin@example.com', '141 Oakwood Ave, Springfield', 'OH-65'),
+('Paul', 'Lee', '1991-03-12', '555-1523', 'paul.lee@example.com', '151 Brookside Dr, Springfield', 'OH-57'),
+('Quinn', 'Walker', '1982-07-21', '555-1623', 'quinn.walker@example.com', '161 Valley Rd, Springfield', 'OH-99'),
+('Rachel', 'Hall', '1994-09-13', '555-1723', 'rachel.hall@example.com', '171 Hillside Blvd, Springfield', 'OH-57'),
+('Sam', 'Allen', '1977-01-29', '555-1823', 'sam.allen@example.com', '181 Canyon St, Springfield', 'OH-57'),
+('Tina', 'Young', '1989-12-25', '555-1923', 'tina.young@example.com', '191 Meadow Ln, Springfield', 'OH-57');
 
 INSERT INTO venue (name, location, max_capacity) VALUES
 ('Springfield Community Center', 'Northwood', 300),
@@ -257,6 +257,25 @@ INSERT INTO person_issue (person_id, issue_id) VALUES
 -- USE CASES
 -- (1)
 GO
+CREATE OR ALTER PROCEDURE find_local_candidates
+	@voter_id AS INTEGER
+AS BEGIN
+	DECLARE @district VARCHAR(5);
+
+	SELECT @district = district FROM person WHERE person_id = @voter_id;
+
+	SELECT first, last, district, election.election_id, date as election_date, campaign_id FROM campaign
+	INNER JOIN person ON campaign.candidate_id = person_id
+	INNER JOIN election ON campaign.election_id = election.election_id
+	WHERE district = @district AND person_id != @voter_id
+END;
+GO
+
+EXECUTE find_local_candidates
+	@voter_id = 1;
+GO
+
+GO
 CREATE OR ALTER PROCEDURE query_events
     @candidate_id AS INTEGER = NULL,
     @type_filter AS VARCHAR(20)
@@ -282,8 +301,10 @@ END;
 GO
 
 EXECUTE query_events
-    @type_filter = 'gotv,phone bank';
+    @type_filter = 'gotv';
 GO
+
+-- TODO: Why is venue_id null?
 
 
 -- (6)
