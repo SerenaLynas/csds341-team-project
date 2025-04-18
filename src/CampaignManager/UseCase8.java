@@ -33,7 +33,7 @@ public class UseCase8 {
         String cmd = "";
         while (!cmd.equals("y") && !cmd.equals("n")) {
             System.out.println("do you know the person_id of the person you want to edit (y/n/Y/N)?");
-            cmd = scanner.next().toLowerCase();
+            cmd = scanner.nextLine().toLowerCase();
         }
 
         if (cmd.equals("n")) {
