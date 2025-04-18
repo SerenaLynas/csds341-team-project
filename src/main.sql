@@ -472,7 +472,7 @@ CREATE OR ALTER PROCEDURE voted_in
     @election_id INTEGER
 AS
 BEGIN
-    SELECT perosn.first, person.last, person.phone, person.email
+    SELECT person.first, person.last, person.phone, person.email
     FROM person INNER JOIN vote_cast ON person.person_id = vote_cast.person_id
     WHERE vote_cast.election_id = @election_id
 END;

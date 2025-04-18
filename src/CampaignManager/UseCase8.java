@@ -107,6 +107,7 @@ public class UseCase8 {
         callable.setInt(1, issue_id);
         var result = callable.executeQuery();
 
+        System.out.println("name,phone,email");
         while (result.next()) {
             System.out.println(result.getString("first") + " " + result.getString("last") + ","
                     + result.getString("phone") + "," + result.getString("email"));
@@ -129,6 +130,8 @@ public class UseCase8 {
                         + people.getString("phone") + "," + people.getString("email"));
             }
         }
+
+        System.out.println("name,phone,email");
         for (var line : lines) {
             System.out.println(line);
         }
