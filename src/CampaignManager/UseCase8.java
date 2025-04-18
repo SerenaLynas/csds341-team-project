@@ -43,6 +43,7 @@ public class UseCase8 {
         } else {
             System.out.println("enter the person_id:");
             person_id = scanner.nextInt();
+            scanner.nextLine();
         }
 
         cmd = "";
@@ -57,6 +58,7 @@ public class UseCase8 {
 
         System.out.println("enter the issue_id:");
         int issue_id = scanner.nextInt();
+        scanner.nextLine();
 
         var insert = conn.prepareStatement("insert into person_issue values (?, ?)");
         insert.setInt(1, person_id);
