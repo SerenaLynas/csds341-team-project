@@ -31,7 +31,7 @@ public class Utility {
         var last = scanner.nextLine();
 
         System.out.println("date of birth (yyyy-[m]m-[d]d):");
-        var dob = Date.valueOf(scanner.next());
+        var dob = Date.valueOf(scanner.nextLine());
 
         fetch.setString(1, first);
         fetch.setString(2, last);
@@ -45,10 +45,10 @@ public class Utility {
         }
 
         System.out.println("phone (empty for null):");
-        var phone = scanner.next();
+        var phone = scanner.nextLine();
 
         System.out.println("email (empty for null):");
-        var email = scanner.next();
+        var email = scanner.nextLine();
 
         System.out.println("address (empty for null):");
         var address = scanner.nextLine();
