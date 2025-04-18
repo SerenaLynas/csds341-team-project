@@ -12,7 +12,7 @@ public class UseCase8 {
         String cmd = "";
         while (!cmd.equals("insert") && !cmd.equals("find")) {
             System.out.println(
-                    "enter `insert` to add a new person-issue tuple or `find` to identify people who care about an issue:");
+                    "enter `insert` to add a new person-issue relationship or `find` to identify people who care about an issue:");
             cmd = scanner.nextLine();
         }
 
