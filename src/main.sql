@@ -497,6 +497,36 @@ GO
 
 -- (7)
 
+
+GO
+CREATE OR ALTER TRIGGER add_funds_after_donation
+ON donation
+AFTER INSERT
+AS
+BEGIN
+    UPDATE campaign
+    SET funds = campaign.funds + donated.total_amount
+    FROM campaign INNER JOIN (
+        SELECT campaign_id, SUM(amount) as total_amount FROM inserted GROUP BY campaign_id
+    ) AS donated ON campaign.campaign_id = donated.campaign_id;
+END;
+GO
+
+GO
+CREATE OR ALTER TRIGGER remove_funds_after_donation_removal
+ON donation
+AFTER DELETE
+AS
+BEGIN
+    UPDATE campaign
+    SET funds = campaign.funds - donated.total_amount
+    FROM campaign INNER JOIN (
+        SELECT campaign_id, SUM(amount) as total_amount FROM deleted GROUP BY campaign_id
+    ) AS donated ON campaign.campaign_id = donated.campaign_id;
+END;
+GO
+
+
 GO
 CREATE OR ALTER PROCEDURE insert_person
     @first VARCHAR(255),

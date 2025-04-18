@@ -67,13 +67,13 @@ public class UseCase7 {
         System.out.println("name,phone,email,total donations");
         while (result.next()) {
             System.out.println(result.getString("first") + " " + result.getString("last") +
-                    "," + result.getString("phone") + "," + result.getString("email")
+                    "," + result.getString("phone") + "," + result.getString("email") + "," +
                     + result.getInt("total_donations"));
         }
     }
 
     private static void find_donors_across_campaigns(Connection conn, Scanner scanner) throws SQLException {
-        System.out.println("this will find the top donors from the most similar campaigns to yours." +
+        System.out.println("this will find the top donors from the most similar campaigns to yours.\n" +
                 "How many campaigns would you like to generate donors from?");
         int count = scanner.nextInt();
         scanner.nextLine();

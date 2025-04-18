@@ -126,7 +126,7 @@ public class Utility {
         }
 
         int election_id;
-        if (cmd.equals("y")) {
+        if (cmd.equals("n")) {
             election_id = fetch_or_insert_election(conn, scanner);
         } else {
             System.out.println("enter the election_id:");
@@ -260,7 +260,7 @@ public class Utility {
             display_donations(conn);
         }
 
-        System.out.println("enter the donation_id you want to delete");
+        System.out.println("enter the donation_id you want to delete:");
         var donation_id = scanner.nextInt();
         scanner.nextLine();
 
