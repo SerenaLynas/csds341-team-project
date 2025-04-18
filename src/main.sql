@@ -497,6 +497,10 @@ GO
 
 -- (7)
 
+DROP INDEX IF EXISTS person_by_name_and_dob ON person;
+CREATE INDEX person_by_name_and_dob
+ON person(first, last, dob);
+
 
 GO
 CREATE OR ALTER TRIGGER add_funds_after_donation

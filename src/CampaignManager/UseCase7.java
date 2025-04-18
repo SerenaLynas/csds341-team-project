@@ -102,6 +102,7 @@ public class UseCase7 {
 
         var other_campaign_ids = fetch_all_campaign_ids.executeQuery();
 
+        // keep only the top count campaigns by number of similar issues
         while (other_campaign_ids.next()) {
             var similarity_result = new SimilarityResult();
             similarity_result.campaign_id = other_campaign_ids.getInt("campaign_id");
@@ -116,6 +117,7 @@ public class UseCase7 {
             }
         }
 
+        // for each campaign, collect the largest donors
         var find_largest_donors = conn.prepareCall("{call find_largest_donors(?)}");
 
         var top_donors = new HashSet<String>();
