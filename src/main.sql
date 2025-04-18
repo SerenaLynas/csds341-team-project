@@ -408,45 +408,73 @@ EXECUTE make_donation
 GO
 
 -- (6)
+DROP PROCEDURE IF EXISTS find_new_candidates;
+GO
 CREATE PROCEDURE find_new_candidates
-    @district VARCHAR(20)
+    @district VARCHAR(5),
     @issueId INT,
-    @electionId INT,
-  AS
-  BEGIN
-    SELECT DISTINCT p.person_id, p.first, p.last, p.email, p.phone,
-        (SELECT COUNT(*) FROM campaign WHERE candidate_id = p.person_id) AS elections_participated,
-        (SELECT COUNT(*) FROM person_issue WHERE person.id = p.person_id AND issue_id = @issue_Id) AS matching_issues
-    FROM person p
-        JOIN person_issue pi ON p.person_id = pi.person_id
-        LEFT JOIN campaign c ON c.candidate_id = p.person_id AND c.election = @electionId
-    WHERE p.district = @district
-      AND pi.issue_id = @issueId
-      AND c.campaign_id IS NULL
-    ORDER BY elections_participated DESC, matching issues DESC;
-END;
+    @electionId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
 
+    CREATE TABLE #CandidateScores (
+        person_id INT,
+        first NVARCHAR(100),
+        last NVARCHAR(100),
+        email NVARCHAR(100),
+        phone NVARCHAR(20),
+        elections_participated INT,
+        matching_issue INT
+    );
+
+    INSERT INTO #CandidateScores (person_id, first, last, email, phone, elections_participated, matching_issue)
+    SELECT 
+        p.person_id,
+        p.first,
+        p.last,
+        p.email,
+        p.phone,
+        (SELECT COUNT(*) FROM campaign c2 WHERE c2.candidate_id = p.person_id) AS elections_participated,
+        (SELECT COUNT(*) FROM person_issue pi2 WHERE pi2.person_id = p.person_id AND pi2.issue_id = @issueId) AS matching_issue
+    FROM person p
+    LEFT JOIN campaign c ON c.candidate_id = p.person_id AND c.election_id = @electionId
+    WHERE p.district = @district
+      AND c.campaign_id IS NULL;
+
+
+    SELECT TOP 5 * 
+    FROM #CandidateScores
+    WHERE matching_issue > 0
+    ORDER BY elections_participated DESC, matching_issue DESC;
+
+    DROP TABLE #CandidateScores;
+END
+GO
+
+
+DROP PROCEDURE IF EXISTS add_candidate_to_campaign;
+GO
 CREATE PROCEDURE add_candidate_to_campaign
     @personId INT,
     @electionId INT,
-    @managerId INT,
-AS BEGIN
+    @managerId INT
+AS
+BEGIN
     BEGIN TRY
         BEGIN TRANSACTION;
 
         IF EXISTS (
             SELECT 1 FROM campaign
-            WHERE candidate_id = @person_Id
-              AND election_id = @electionId
+            WHERE candidate_id = @personId AND election_id = @electionId
         )
-
         BEGIN
-            RAISERROR("Candidate is already registered for this election.", 16, 1);
+            RAISERROR('Candidate is already registered for this election.', 16, 1);
             ROLLBACK;
             RETURN;
         END;
 
-        INSERT INTO campaign(candidate_id, manager_id, election_id, funds)
+        INSERT INTO campaign (candidate_id, manager_id, election_id, funds)
         VALUES (@personId, @managerId, @electionId, 0.00);
 
         COMMIT;
@@ -454,9 +482,9 @@ AS BEGIN
     BEGIN CATCH
         ROLLBACK;
         PRINT 'Error: ' + ERROR_MESSAGE();
-    END CATCH;
-END;
-
+    END CATCH
+END
+GO
 
 
 
@@ -536,6 +564,27 @@ GO
 -- (8)
 
 GO
+CREATE OR ALTER PROCEDURE insert_campaign
+    @candidate_id INTEGER,
+    @manager_id INTEGER,
+    @election_id INTEGER
+AS
+BEGIN
+    INSERT INTO campaign OUTPUT Inserted.campaign_id VALUES (@candidate_id, @manager_id, @election_id, 0);
+END;
+GO
+
+GO
+CREATE OR ALTER PROCEDURE insert_election
+    @date DATE,
+    @registration_deadline DATE
+AS
+BEGIN
+    INSERT INTO election OUTPUT Inserted.election_id VALUES (@registration_deadline, @date);
+END;
+GO
+
+GO
 CREATE OR ALTER PROCEDURE find_people_for_issue
     @issue_id INTEGER
 AS
@@ -579,17 +628,19 @@ END;
 GO
 
 -- (12)
-CREATE TABLE event_summary(
-    event_id INT,
-    total_attendance INT,
-    top_issue_id INT,
-    top_issue_count INT,
-)
-
+DROP PROCEDURE IF EXISTS analyze_event_effectiveness;
+GO
 CREATE OR ALTER PROCEDURE analyze_event_effectiveness
     @eventType VARCHAR(50) = NULL,
     @campaignId INT = NULL
 AS BEGIN
+	CREATE TABLE #EventSummary(
+    event_id INT,
+    total_attendance INT,
+    top_issue_id INT,
+    top_issue_count INT,
+	)
+
     SELECT TOP 5 
         e.event_id,
         e.name AS event_name,
@@ -602,7 +653,7 @@ AS BEGIN
     GROUP BY e.event_id, e.name
     ORDER BY total_attendance DESC;
 
-    INSERT INTO event_summary(event_id, total_attendance, top_issue_id, top_issue_count)
+    INSERT INTO #EventSummary(event_id, total_attendance, top_issue_id, top_issue_count)
     SELECT te.event_id,
         te.total_attendance,
         pi.issue_id,
@@ -622,10 +673,12 @@ AS BEGIN
     );
 
     DROP TABLE #TopEvents;
-END;
 
+	SELECT es.event_id, e.name, es.total_attendance, i.description AS top_issue
+	FROM #EventSummary es
+	JOIN event e ON es.event_id = e.event_id
+	JOIN issue i ON es.top_issue_id = i.issue_id;
 
-SELECT es.event_id, e.name, es.total_attendance, i.description AS top_issue
-FROM event_summary es
-JOIN event e ON es.event_id = e.event_id
-JOIN issue i ON es.top_issue_id = i.issue_id;
+	DROP TABLE #EventSummary;
+END
+GO

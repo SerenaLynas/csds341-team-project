@@ -20,7 +20,7 @@ public class App {
         var scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("enter ucN to select a specific use case, or q/Q to quit:");
+            System.out.println("enter ucN to select the Nth use case, or q/Q to quit:");
             String cmd = scanner.nextLine();
 
             if (cmd.toLowerCase().equals("q")) {
