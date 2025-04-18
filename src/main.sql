@@ -68,7 +68,7 @@ CREATE TABLE donation (
     donation_id INTEGER IDENTITY PRIMARY KEY,
     person_id INTEGER NOT NULL,
     campaign_id INTEGER NOT NULL,
-    amount NUMERIC NOT NULL,
+    amount BIGINT NOT NULL,
     FOREIGN KEY (person_id) REFERENCES person(person_id),
     FOREIGN KEY (campaign_id) REFERENCES campaign(campaign_id)
 );
@@ -341,38 +341,62 @@ END;
 
 -- (7)
 
+GO
+CREATE OR ALTER PROCEDURE insert_person
+    @first VARCHAR(255),
+    @last VARCHAR(255),
+    @dob DATE,
+    @phone VARCHAR(255),
+    @email VARCHAR(255),
+    @address VARCHAR(255),
+    @district VARCHAR(255)
+AS
+BEGIN
+    INSERT INTO person OUTPUT Inserted.person_id VALUES(@first, @last, @dob, @phone, @email, @address, @district);
+END;
+GO
+
+GO
 CREATE OR ALTER PROCEDURE insert_donation
-    @person_id INTEGER NOT NULL,
-    @campaign_id INTEGER NOT NULL,
-    @amount NUMERIC NOT NULL
+    @person_id INTEGER,
+    @campaign_id INTEGER,
+    @amount BIGINT
 AS
 BEGIN
     INSERT INTO donation OUTPUT Inserted.donation_id VALUES (@person_id, @campaign_id, @amount);
 END;
+GO
 
+GO
 CREATE OR ALTER PROCEDURE delete_donation
-    @donation_id INTEGER NOT NULL
+    @donation_id INTEGER
 AS
 BEGIN
     DELETE FROM donation where donation.donation_id = @donation_id;
 END;
+GO
 
 
+GO
 CREATE OR ALTER PROCEDURE find_largest_donors
-    @campaign_id INTEGER NOT NULL
+    @campaign_id INTEGER
 AS
 BEGIN
-    SELECT person.first, person.last, person.phone, person.email, donation.amount
+    SELECT person.first, person.last, person.phone, person.email, total_donations
     FROM person INNER JOIN (
-        select donation.person_id, SUM(donation.amount) FROM donation GROUP BY donation.amount
+        SELECT donation.person_id, SUM(donation.amount) AS total_donations 
+        FROM donation 
+        WHERE donation.campaign_id = @campaign_id
+        GROUP BY donation.person_id
     ) AS donation_sum ON person.person_id = donation_sum.person_id
-    WHERE donation.campaign_id = @campaign_id
-    ORDER BY donation.amount;
-END
+    ORDER BY donation_sum.total_donations;
+END;
+GO
 
+GO
 CREATE OR ALTER PROCEDURE check_campaign_similarity
-    @campaign_a INTEGER NOT NULL,
-    @campaign_b INTEGER NOT NULL
+    @campaign_a INTEGER,
+    @campaign_b INTEGER
 AS
 BEGIN
     SELECT COUNT(*)
@@ -380,43 +404,47 @@ BEGIN
         SELECT person_issue.issue_id 
         FROM person_issue INNER JOIN campaign ON person_issue.person_id = campaign.candidate_id
         WHERE campaign.candidate_id = @campaign_a
-    ) INTERSECT (
+        INTERSECT
         SELECT person_issue.issue_id
         FROM person_issue INNER JOIN campaign on person_issue.person_id = campaign.candidate_id
-        WHERE cmpaign.candidate_id = @campaign_b
-    );
+        WHERE campaign.candidate_id = @campaign_b
+    ) as shared_issues;
 END;
+GO
 
 -- (8)
 
+GO
 CREATE OR ALTER PROCEDURE find_people_for_issue
-    @issue_id INTEGER NOT NULL
+    @issue_id INTEGER
 AS
 BEGIN
     SELECT person.first, person.last, person.phone, person.email
     FROM person INNER JOIN person_issue ON person.person_id = person_issue.issue_id
     WHERE person_issue.issue_id = @issue_id;
 END;
+GO
 
+GO
 CREATE OR ALTER PROCEDURE find_elections_for_issue
-    @issue_id INTEGER NOT NULL
+    @issue_id INTEGER
 AS
 BEGIN
     SELECT DISTINCT campaign.election_id
     FROM campaign INNER JOIN person_issue ON campaign.candidate_id = person_issue.person_id
     WHERE person_issue.issue_id = issue_id;
 END;
+GO
 
+GO
 CREATE OR ALTER PROCEDURE insert_person_issue
-    @person_id INTEGER NOT NULL,
-    @issue_id INTEGER Not NULL
+    @person_id INTEGER,
+    @issue_id INTEGER
 AS
 BEGIN
     INSERT INTO person_issue OUTPUT Inserted.person_id, Inserted.issue_id VALUES (@person_id, @issue_id);
 END;
-
-
-
+GO
 
 -- (12)
 CREATE TABLE event_summary(
