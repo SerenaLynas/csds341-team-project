@@ -65,6 +65,187 @@ public class Utility {
         insert_result.next();
         var person_id = insert_result.getInt("person_id");
         System.out.println("inserted someone with person_id = " + person_id);
-        return insert_result.getInt("person_id");
+        return person_id;
+    }
+
+    public static int fetch_or_insert_campaign(Connection conn, Scanner scanner) throws SQLException {
+        String cmd = "";
+        while (!cmd.equals("y") && !cmd.equals("n")) {
+            System.out.println("do you know the person_id of the campaign's candidate (y/n/Y/N)?");
+            cmd = scanner.nextLine().toLowerCase();
+        }
+
+        int candidate_id;
+        if (cmd.equals("n")) {
+            candidate_id = fetch_or_insert_person(conn, scanner);
+        } else {
+            System.out.println("enter the person_id:");
+            candidate_id = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        cmd = "";
+        while (!cmd.equals("y") && !cmd.equals("n")) {
+            System.out.println("do you know the person_id of the campaign's manager (y/n/Y/N)?");
+            cmd = scanner.nextLine().toLowerCase();
+        }
+
+        int manager_id;
+        if (cmd.equals("n")) {
+            manager_id = fetch_or_insert_person(conn, scanner);
+        } else {
+            System.out.println("enter the person_id:");
+            manager_id = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        cmd = "";
+        while (!cmd.equals("y") && !cmd.equals("n")) {
+            System.out.println("do you know the election_id of the campaign (y/n/Y/N)?");
+            cmd = scanner.nextLine().toLowerCase();
+        }
+
+        int election_id;
+        if (cmd.equals("y")) {
+            election_id = fetch_or_insert_election(conn, scanner);
+        } else {
+            System.out.println("enter the election_id:");
+            election_id = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        var select = conn.prepareStatement(
+                "select campaign_id from campaign where candidate_id = ? and manager_id = ? and election_id = ?");
+        select.setInt(1, candidate_id);
+        select.setInt(2, manager_id);
+        select.setInt(3, election_id);
+        var result = select.executeQuery();
+
+        while (result.next()) {
+            var campaign_id = result.getInt("campaign_id");
+            System.out.println("found campaign with campaign_id = " + campaign_id);
+        }
+
+        var insert = conn.prepareCall("{call insert_campaign(?, ?, ?)}");
+        insert.setInt(1, candidate_id);
+        insert.setInt(2, manager_id);
+        insert.setInt(3, election_id);
+
+        var insert_result = insert.executeQuery();
+        insert_result.next();
+        var campaign_id = insert_result.getInt("campaign_id");
+        System.out.println("inserted a new campaign with campaign_id = " + campaign_id);
+        return campaign_id;
+    }
+
+    public static int fetch_or_insert_election(Connection conn, Scanner scanner) throws SQLException {
+        System.out.println("what is the date (yyyy-mm-dd) of the election?");
+        var date = Date.valueOf(scanner.nextLine());
+
+        System.out.println("what is the registration deadline (yyyy-mm-dd) of the election?");
+        var deadline = Date.valueOf(scanner.nextLine());
+
+        var select = conn
+                .prepareStatement("select election_id from election where date = ? and registration_deadline = ?");
+        select.setDate(1, date);
+        select.setDate(2, deadline);
+
+        var result = select.executeQuery();
+        while (result.next()) {
+            int election_id = result.getInt("election_id");
+            System.out.println("found existing election with election_id = " + election_id);
+            return election_id;
+        }
+
+        var insert = conn.prepareCall("{call insert_election(?, ?)}");
+        insert.setDate(1, date);
+        insert.setDate(2, deadline);
+
+        result = insert.executeQuery();
+        result.next();
+
+        int election_id = result.getInt("election_id");
+        System.out.println("inserted new election with election_id = " + election_id);
+        return election_id;
+    }
+
+    public static void display_donations(Connection conn) throws SQLException {
+        var stmt = conn.prepareStatement("select * from donations");
+        var result = stmt.executeQuery();
+
+        while (result.next()) {
+            System.out
+                    .println("donation_id=" + result.getInt("donation_id") + ",person_id=" + result.getInt("person_id")
+                            + ",campaign_id=" + result.getInt("campaign_id") + ",amount=" + result.getInt("amount"));
+        }
+    }
+
+    public static int insert_donation(Connection conn, Scanner scanner) throws SQLException {
+        String cmd = "";
+        while (!cmd.equals("y") && !cmd.equals("n")) {
+            System.out.println("do you know the person_id of the donation's donor (y/n/Y/N)?");
+            cmd = scanner.nextLine().toLowerCase();
+        }
+
+        int donor_id;
+        if (cmd.equals("n")) {
+            donor_id = fetch_or_insert_person(conn, scanner);
+        } else {
+            System.out.println("enter the person_id of the donation's donor:");
+            donor_id = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        cmd = "";
+        while (!cmd.equals("y") && !cmd.equals("n")) {
+            System.out.println("do you know the campaign_id of the campaign the donation was made too (y/n/Y/N)?");
+            cmd = scanner.nextLine().toLowerCase();
+        }
+
+        int campaign_id;
+        if (cmd.equals("n")) {
+            campaign_id = fetch_or_insert_campaign(conn, scanner);
+        } else {
+            System.out.println("enter the campaign_id:");
+            campaign_id = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        int donation_amount;
+        System.out.println("enter the donation amount in cents (i.e. 1 dollar becomes 100 cents):");
+        donation_amount = scanner.nextInt();
+        scanner.nextLine();
+
+        var insert = conn.prepareCall("{call insert_donation(?, ?, ?)}");
+        insert.setInt(1, donor_id);
+        insert.setInt(2, campaign_id);
+        insert.setInt(3, donation_amount);
+
+        var result = insert.executeQuery();
+        result.next();
+
+        var donation_id = result.getInt("donation_id");
+        System.out.println("added a new donation with donation_id = " + donation_id);
+        return donation_id;
+    }
+
+    public static void delete_donation(Connection conn, Scanner scanner) throws SQLException {
+        String cmd = "";
+        while (!cmd.equals("n") && !cmd.equals("y")) {
+            System.out.println("do you know the donation_id of the donation you want to delete (y/n/Y/N)?");
+            cmd = scanner.nextLine().toLowerCase();
+        }
+
+        if (cmd.equals("n")) {
+            display_donations(conn);
+        }
+
+        System.out.println("enter the donation_id you want to delete");
+        var donation_id = scanner.nextInt();
+        scanner.nextLine();
+
+        var delete = conn.prepareCall("{call delete_donation(?)}");
+        delete.setInt(1, donation_id);
+        delete.executeUpdate();
     }
 }
