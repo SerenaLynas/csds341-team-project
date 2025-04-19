@@ -38,7 +38,7 @@ public class Cli {
             System.out.println(question + "(enter an integer 1 to " + i + ")");
             var ans = scanner.nextInt();
             if (0 < ans && ans < i) {
-                return ans;
+                return ans - 1;
             } else {
                 System.out.println("Not in range.");
             }
@@ -58,7 +58,7 @@ public class Cli {
                 return new int[] {};
             }
 
-            var arr = Arrays.stream(ans.split(",")).mapToInt(s -> Integer.parseInt(s)).toArray();
+            var arr = Arrays.stream(ans.split(",")).mapToInt(s -> Integer.parseInt(s) - 1).toArray();
             if (Arrays.stream(arr).allMatch(k -> 0 < k && k < choices.length)) {
                 return arr;
             }

@@ -18,28 +18,31 @@ public class App {
         conn.setAutoCommit(false);
 
         var scanner = new Scanner(System.in);
-
+        var cli = new Cli(scanner);
         while (true) {
-            System.out.println("enter ucN to select the Nth use case, or q/Q to quit:");
-            String cmd = scanner.nextLine();
-
-            if (cmd.toLowerCase().equals("q")) {
-                break;
-            }
+            var choice = cli.choices(
+                "What would you like to do?",
+                "Find local events [use case 1]",
+                "Make a donation [use case 2]",
+                "[use case 7]",
+                "[use case 8]",
+                "[use case ]",
+                "[use case ]",
+                "Quit"
+            );
 
             try {
-                if (cmd.equals("uc7")) {
-                    UseCase7.run(conn, scanner);
-                } else if (cmd.equals("uc8")) {
-                    UseCase8.run(conn, scanner);
+                switch (choice) {
+                    case 0: UseCase1.run(conn, cli); break;
+                    case 2: UseCase7.run(conn, scanner); break;
+                    case 3: UseCase8.run(conn, scanner); break;
+                    case 6: scanner.close(); return;
                 }
                 conn.commit();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 conn.rollback();
                 e.printStackTrace();
             }
         }
-
-        scanner.close();
     }
 }
