@@ -24,10 +24,10 @@ public class App {
                 "What would you like to do?",
                 "Find local events [use case 1]",
                 "Make a donation [use case 2]",
-                "[use case 6]",
+                "Identify and add a new candidate to an upcoming election [use case 6]",
                 "Tracking donations [use case 7]",
                 "Target issues [use case 8]",
-                "[use case 12]",
+                "Determine the effectiveness of past events [use case 12]",
                 "Quit"
             );
 
