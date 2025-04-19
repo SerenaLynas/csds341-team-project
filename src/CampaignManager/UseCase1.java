@@ -69,7 +69,7 @@ public class UseCase1 {
         
         var events = cli.selectMultiple("Which events would you like to register for?", eventChoices.toArray(String[]::new));
         for (int i: events) {
-            var call = conn.prepareCall("{ call register_event(?, ?, ?) }");
+            var call = conn.prepareCall("{ call register_for_event(?, ?, ?) }");
             call.setInt(1, eventIds.get(i));
             call.setInt(2, uid);
             call.setString(3, "utm_source=cli");
