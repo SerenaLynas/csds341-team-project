@@ -3,6 +3,7 @@ package CampaignManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class UseCase2 {
     public static int STATUTORY_LIMIT = 5500000;
@@ -29,7 +30,7 @@ public class UseCase2 {
             var campaignIds = new ArrayList<Integer>();
             var candidateDesc = new ArrayList<>();
             var findCandidatesCall = conn.prepareCall("{ call find_candidates_by_issue(?) }");
-            findCandidatesCall.setInt(0, issueId);
+            findCandidatesCall.setInt(1, issueId);
             var result = findCandidatesCall.executeQuery();
 
             while (result.next()) {
@@ -48,6 +49,7 @@ public class UseCase2 {
 
         System.out.println("How much would you like to donate? (enter a currency amount, e.g. 100.00)");
         var str = cli.getScanner().nextLine().trim().split(".");
+        System.out.println(Arrays.toString(str));
         int amnt = Integer.parseInt(str[0]) * 100;
         if (str.length > 1) {
             amnt += Integer.parseInt(str[1]);

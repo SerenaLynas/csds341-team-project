@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws SQLException {
-        String connectionUrl = "jdbc:sqlserver://cxp-sql-03\\sad123;"
+        String connectionUrl = "jdbc:sqlserver://cxp-sql-03\\sjl132;"
                 + "database=CampaignManager;"
                 + "user=sa;"
-                + "password=ioIbCq5vew483a;"
+                + "password=x62fuuVQvEvnu1;"
                 + "encrypt=true;"
                 + "trustServerCertificate=true;"
                 + "loginTimeout=15;";

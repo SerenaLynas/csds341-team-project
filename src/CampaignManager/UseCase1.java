@@ -67,20 +67,15 @@ public class UseCase1 {
             eventNames.add(queryEventsResult.getString("name"));
         }
         
-        var events = cli.selectMultiple("Which events would you like to register for?", types);
+        var events = cli.selectMultiple("Which events would you like to register for?", eventChoices.toArray(String[]::new));
         for (int i: events) {
             var call = conn.prepareCall("{ call register_event(?, ?, ?) }");
             call.setInt(1, eventIds.get(i));
             call.setInt(2, uid);
             call.setString(3, "utm_source=cli");
 
-            boolean result = call.execute();
-
-            if (result) {
-                System.out.println("Registered for " + eventNames.get(i) + ".");
-            } else {
-                System.out.println(eventNames.get(i) + " is full.");
-            }
+            call.execute();
+            System.out.println("Registered for " + eventNames.get(i) + ".");
         }
     }
 }

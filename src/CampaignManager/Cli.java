@@ -17,7 +17,7 @@ public class Cli {
         String cmd = "";
         while (!cmd.equals("y") && !cmd.equals("n")) {
             System.out.println(msg + " (y/n)");
-            cmd = scanner.nextLine().toLowerCase();
+            cmd = scanner.nextLine().trim().toLowerCase();
         }
 
         return cmd.equals("y");
@@ -33,14 +33,14 @@ public class Cli {
     public int choice(String question, String... choices) {
         int i = 0;
         for (String choice: choices) {
-            System.out.println("  " + choice + "(" + (1 + i++) + ")");
+            System.out.println("  " + choice + " (" + (1 + i++) + ")");
         }
 
         while (true) {
-            System.out.println(question + "(enter an integer 1 to " + i + ")");
+            System.out.println(question + " (enter an integer 1 to " + i + ")");
             var ans = scanner.nextInt();
             scanner.nextLine();
-            if (0 < ans && ans < i) {
+            if (0 < ans && ans <= i) {
                 return ans - 1;
             } else {
                 System.out.println("Not in range.");
@@ -51,7 +51,7 @@ public class Cli {
     public int[] selectMultiple(String question, String... choices) {
         int i = 0;
         for (String choice: choices) {
-            System.out.println("  " + choice + "(" + (1 + i++) + ")");
+            System.out.println("  " + choice + " (" + (1 + i++) + ")");
         }
 
         while (true) {
@@ -62,7 +62,7 @@ public class Cli {
             }
 
             var arr = Arrays.stream(ans.split(",")).mapToInt(s -> Integer.parseInt(s) - 1).toArray();
-            if (Arrays.stream(arr).allMatch(k -> 0 < k && k < choices.length)) {
+            if (Arrays.stream(arr).allMatch(k -> 0 <= k && k < choices.length)) {
                 return arr;
             }
         }
