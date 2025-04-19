@@ -1,9 +1,7 @@
 package CampaignManager;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class UseCase2 {
     public static int STATUTORY_LIMIT = 5500000;
