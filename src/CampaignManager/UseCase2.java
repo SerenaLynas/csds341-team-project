@@ -47,6 +47,11 @@ public class UseCase2 {
 
         int amnt = cli.askInt("How much would you like to donate? (enter a currency amount, e.g. 10000 for $100.00)");
 
+        if (amnt > STATUTORY_LIMIT) {
+            System.out.println("This is above the statutory limit.");
+            return;
+        }
+
         var call = conn.prepareCall("{ call make_donation(?, ?, ?, ?) }");
         call.setInt(1, uid);
         call.setInt(2, campaign_id);
