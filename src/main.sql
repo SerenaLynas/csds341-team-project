@@ -256,6 +256,9 @@ INSERT INTO person_issue (person_id, issue_id) VALUES
 
 -- USE CASES
 -- (1)
+DROP INDEX IF EXISTS person_by_district ON person;
+CREATE INDEX person_by_distict ON person(district);
+
 GO
 CREATE OR ALTER PROCEDURE get_person
     @id AS INTEGER
