@@ -47,13 +47,7 @@ public class UseCase2 {
             );
         }
 
-        System.out.println("How much would you like to donate? (enter a currency amount, e.g. 100.00)");
-        var str = cli.getScanner().nextLine().trim().split(".");
-        System.out.println(Arrays.toString(str));
-        int amnt = Integer.parseInt(str[0]) * 100;
-        if (str.length > 1) {
-            amnt += Integer.parseInt(str[1]);
-        }
+        int amnt = cli.askInt("How much would you like to donate? (enter a currency amount, e.g. 10000 for $100.00)");
 
         var call = conn.prepareCall("{ call make_donation(?, ?, ?, ?) }");
         call.setInt(1, uid);
@@ -63,6 +57,6 @@ public class UseCase2 {
 
         call.execute();
 
-        System.out.println("Made a donation of " + str + ".");
+        System.out.println("Made a donation of " + amnt + ".");
     }
 }
