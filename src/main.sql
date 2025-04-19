@@ -256,6 +256,9 @@ INSERT INTO person_issue (person_id, issue_id) VALUES
 
 -- USE CASES
 -- (1)
+DROP INDEX IF EXISTS person_by_district ON person;
+CREATE INDEX person_by_distict ON person(district);
+
 GO
 CREATE OR ALTER PROCEDURE get_person
     @id AS INTEGER
@@ -497,6 +500,10 @@ GO
 
 -- (7)
 
+DROP INDEX IF EXISTS person_by_name_and_dob ON person;
+CREATE INDEX person_by_name_and_dob
+ON person(first, last, dob);
+
 
 GO
 CREATE OR ALTER TRIGGER add_funds_after_donation
@@ -549,7 +556,7 @@ CREATE OR ALTER PROCEDURE insert_donation
     @amount BIGINT
 AS
 BEGIN
-    INSERT INTO donation OUTPUT Inserted.donation_id VALUES (@person_id, @campaign_id, @amount);
+    INSERT INTO donation VALUES (@person_id, @campaign_id, @amount);
 END;
 GO
 

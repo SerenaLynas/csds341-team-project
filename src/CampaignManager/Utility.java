@@ -200,7 +200,7 @@ public class Utility {
         }
     }
 
-    public static int insert_donation(Connection conn, Scanner scanner) throws SQLException {
+    public static void insert_donation(Connection conn, Scanner scanner) throws SQLException {
         String cmd = "";
         while (!cmd.equals("y") && !cmd.equals("n")) {
             System.out.println("do you know the person_id of the donation's donor (y/n/Y/N)?");
@@ -241,12 +241,7 @@ public class Utility {
         insert.setInt(2, campaign_id);
         insert.setInt(3, donation_amount);
 
-        var result = insert.executeQuery();
-        result.next();
-
-        var donation_id = result.getInt("donation_id");
-        System.out.println("added a new donation with donation_id = " + donation_id);
-        return donation_id;
+        insert.executeUpdate();
     }
 
     public static void delete_donation(Connection conn, Scanner scanner) throws SQLException {
