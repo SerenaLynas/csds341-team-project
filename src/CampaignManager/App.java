@@ -24,18 +24,20 @@ public class App {
                 "What would you like to do?",
                 "Find local events [use case 1]",
                 "Make a donation [use case 2]",
+                "[use case 6]",
                 "[use case 7]",
                 "[use case 8]",
-                "[use case ]",
-                "[use case ]",
+                "[use case 12]",
                 "Quit"
             );
 
             try {
                 switch (choice) {
                     case 0: UseCase1.run(conn, cli); break;
-                    case 2: UseCase7.run(conn, scanner); break;
-                    case 3: UseCase8.run(conn, scanner); break;
+                    case 2: UseCase6.run(conn, scanner); break;
+                    case 3: UseCase7.run(conn, scanner); break;
+                    case 4: UseCase8.run(conn, scanner); break;
+                    case 5: UseCase12.run(conn, scanner); break;
                     case 6: scanner.close(); return;
                 }
                 conn.commit();
