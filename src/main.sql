@@ -279,11 +279,6 @@ AS BEGIN
 	INNER JOIN election ON campaign.election_id = election.election_id
 	WHERE district = @district AND person_id != @voter_id
 END;
-GO
-
-EXECUTE find_local_candidates
-	@voter_id = 1;
-GO
 
 GO
 CREATE OR ALTER PROCEDURE query_events
@@ -308,13 +303,6 @@ AS BEGIN
     )
     ORDER BY time_start ASC
 END;
-GO
-
-EXECUTE query_events
-    @type_filter = 'gotv';
-GO
-
--- TODO: Why is venue_id null?
 
 GO
 CREATE OR ALTER PROCEDURE register_for_event
@@ -350,12 +338,6 @@ AS BEGIN
 END
 GO
 
-EXECUTE register_event
-	@event_id = 3,
-	@person_id = 1,
-	@utm = 'utm_source=cli';
-GO
-
 -- USE CASE (2)
 CREATE OR ALTER PROCEDURE get_issues AS BEGIN
     SELECT * FROM issue
@@ -373,10 +355,6 @@ AS BEGIN
 	INNER JOIN issue ON person_issue.issue_id = issue.issue_id
 	WHERE date > GETDATE()
 END;
-GO
-
-EXECUTE find_candidate_by_issue
-	@issue_id = 1;
 GO
 
 CREATE OR ALTER PROCEDURE make_donation
@@ -413,13 +391,6 @@ BEGIN
 		END
 	END
 END;
-GO
-
-EXECUTE make_donation
-	@person_id = 1,
-	@campaign_id = 1,
-	@amount = 10000,
-	@statutory_limit = 20000;
 GO
 
 -- (6)
