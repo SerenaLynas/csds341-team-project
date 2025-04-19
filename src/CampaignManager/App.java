@@ -25,8 +25,8 @@ public class App {
                 "Find local events [use case 1]",
                 "Make a donation [use case 2]",
                 "[use case 6]",
-                "[use case 7]",
-                "[use case 8]",
+                "Tracking donations [use case 7]",
+                "Target issues [use case 8]",
                 "[use case 12]",
                 "Quit"
             );
