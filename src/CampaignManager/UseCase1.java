@@ -26,7 +26,7 @@ public class UseCase1 {
         }
 
         System.out.println("Your local candidates are:");
-        var id = cli.choices(
+        var id = cli.choice(
             "Which candidate would you like to see events for?",
             candidateChoices.toArray(String[]::new)
         );

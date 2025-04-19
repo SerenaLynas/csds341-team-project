@@ -357,10 +357,15 @@ EXECUTE register_event
 GO
 
 -- USE CASE (2)
+CREATE OR ALTER PROCEDURE get_issues AS BEGIN
+    SELECT * FROM issue
+END;
+GO
+
 CREATE OR ALTER PROCEDURE find_candidates_by_issue
 	@issue_id AS INTEGER
 AS BEGIN
-	SELECT first, last, district, campaign_id, election.election_id, date as election_date
+	SELECT person_id, first, last, district, campaign_id, election.election_id, date as election_date
 	FROM person
 	INNER JOIN campaign ON campaign.candidate_id = person.person_id
 	INNER JOIN election ON election.election_id = campaign.election_id

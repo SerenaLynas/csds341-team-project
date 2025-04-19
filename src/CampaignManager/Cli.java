@@ -25,10 +25,12 @@ public class Cli {
 
     public int askInt(String msg) {
         System.out.println(msg + " (enter an integer)");
-        return scanner.nextInt();
+        var i = scanner.nextInt();
+        scanner.nextLine();
+        return i;
     }
 
-    public int choices(String question, String... choices) {
+    public int choice(String question, String... choices) {
         int i = 0;
         for (String choice: choices) {
             System.out.println("  " + choice + "(" + (1 + i++) + ")");
@@ -37,6 +39,7 @@ public class Cli {
         while (true) {
             System.out.println(question + "(enter an integer 1 to " + i + ")");
             var ans = scanner.nextInt();
+            scanner.nextLine();
             if (0 < ans && ans < i) {
                 return ans - 1;
             } else {

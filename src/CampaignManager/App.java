@@ -20,7 +20,7 @@ public class App {
         var scanner = new Scanner(System.in);
         var cli = new Cli(scanner);
         while (true) {
-            var choice = cli.choices(
+            var choice = cli.choice(
                 "What would you like to do?",
                 "Find local events [use case 1]",
                 "Make a donation [use case 2]",
@@ -34,6 +34,7 @@ public class App {
             try {
                 switch (choice) {
                     case 0: UseCase1.run(conn, cli); break;
+                    case 1: UseCase2.run(conn, cli); break;
                     case 2: UseCase6.run(conn, scanner); break;
                     case 3: UseCase7.run(conn, scanner); break;
                     case 4: UseCase8.run(conn, scanner); break;
